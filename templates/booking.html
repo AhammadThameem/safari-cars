@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Car Booking</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h1>CAR SHOWROOM</h1>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/cars">Cars</a>
+    </nav>
+</header>
+
+
+<section class="hero">
+    <h2>Book Your Car 🚗</h2>
+    <p>Schedule a test drive or make an enquiry.</p>
+</section>
+
+
+<div class="booking-container">
+
+    {% if message %}
+        <div class="success-message">
+            {{ message }}
+        </div>
+    {% endif %}
+
+
+    <form action="/booking" method="POST">
+
+        <label>Customer Name</label>
+        <input type="text"
+               name="name"
+               placeholder="Enter your name"
+               required>
+
+
+        <label>Phone Number</label>
+        <input type="text"
+               name="phone"
+               placeholder="Enter your phone number"
+               required>
+
+
+        <label>Email</label>
+        <input type="email"
+               name="email"
+               placeholder="Enter your email"
+               required>
+<select name="car" required>
+
+    <option value="">-- Select Car --</option>
+
+    {% for car in cars %}
+
+        <option value="{{ car['brand'] }} {{ car['model'] }}"
+            {% if selected_car and selected_car|int == car['id'] %}
+                selected
+            {% endif %}>
+            {{ car['brand'] }} {{ car['model'] }}
+        </option>
+
+    {% endfor %}
+
+</select>
+
+        <label>Booking Type</label>
+
+        <select name="booking_type" required>
+
+            <option value="">-- Select Booking Type --</option>
+
+            <option value="Test Drive">
+                Test Drive
+            </option>
+
+            <option value="Car Enquiry">
+                Car Enquiry
+            </option>
+
+        </select>
+
+
+        <button type="submit">
+            Submit Booking 🚗
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

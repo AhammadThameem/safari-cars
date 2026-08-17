@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Our Cars</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .cars {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .car-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+            padding-bottom: 20px;
+        }
+
+        .car-image img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .car-card h2,
+        .car-card p,
+        .car-card .btn {
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .car-card h2 {
+            margin-top: 15px;
+        }
+
+        .car-card p {
+            margin-top: 8px;
+        }
+
+        .car-card .btn {
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .no-cars {
+            text-align: center;
+            margin: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">CAR SHOWROOM</div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/cars">Cars</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Our Cars 🚗</h1>
+    <p>Choose your dream car</p>
+</section>
+
+
+<section class="cars">
+
+    {% if cars %}
+
+        {% for car in cars %}
+
+        <div class="car-card">
+
+            <div class="car-image">
+                <img src="{{ url_for('static', filename='images/' + car['image']) }}"
+                     alt="{{ car['brand'] }} {{ car['model'] }}">
+            </div>
+
+            <h2>{{ car['brand'] }} {{ car['model'] }}</h2>
+
+            <p><strong>Price:</strong> ₹{{ car['price'] }}</p>
+
+            <p><strong>Fuel:</strong> {{ car['fuel'] }}</p>
+
+            <p><strong>Transmission:</strong> {{ car['transmission'] }}</p>
+
+            <p><strong>Year:</strong> {{ car['year'] }}</p>
+
+            <a href="/car-details/{{ car['id'] }}" class="btn">
+                View Details
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="no-cars">
+            <h2>No cars available</h2>
+            <p>Please check back later.</p>
+        </div>
+
+    {% endif %}
+
+</section>
+
+</body>
+</html>

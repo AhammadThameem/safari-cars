@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Cars - Car Showroom</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+        }
+
+        header {
+            background: #111;
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-box,
+        .cars-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+
+        .form-box h2,
+        .cars-box h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        .btn {
+            margin-top: 10px;
+            padding: 12px 25px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background: #333;
+        }
+
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .car-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .car-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #ddd;
+        }
+
+        .car-info {
+            padding: 20px;
+        }
+
+        .car-info h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .car-info p {
+            margin: 7px 0;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
+        .no-cars {
+            text-align: center;
+            color: #777;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>CAR SHOWROOM</h1>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/cars">Cars</a>
+        <a href="/admin">Dashboard</a>
+        <a href="/logout">Logout</a>
+    </nav>
+
+</header>
+
+
+<div class="container">
+
+    <div class="title">
+        <h1>🚗 Manage Cars</h1>
+        <p>Add and manage cars in your showroom</p>
+    </div>
+
+
+    <!-- ADD CAR FORM -->
+
+    <div class="form-box">
+
+        <h2>➕ Add New Car</h2>
+
+        <form action="/add-car" method="POST">
+
+            <div class="form-group">
+                <label>Brand</label>
+                <input type="text" name="brand" placeholder="Example: BMW" required>
+            </div>
+
+            <div class="form-group">
+                <label>Model</label>
+                <input type="text" name="model" placeholder="Example: 3 Series" required>
+            </div>
+
+            <div class="form-group">
+                <label>Price</label>
+                <input type="number" name="price" placeholder="Example: 4500000" required>
+            </div>
+
+            <div class="form-group">
+                <label>Fuel Type</label>
+
+                <select name="fuel" required>
+                    <option value="">Select Fuel</option>
+                    <option value="Petrol">Petrol</option>
+                    <option value="Diesel">Diesel</option>
+                    <option value="Electric">Electric</option>
+                    <option value="Hybrid">Hybrid</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Transmission</label>
+
+                <select name="transmission" required>
+                    <option value="">Select Transmission</option>
+                    <option value="Manual">Manual</option>
+                    <option value="Automatic">Automatic</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Year</label>
+                <input type="number" name="year" placeholder="Example: 2026" required>
+            </div>
+
+            <div class="form-group">
+                <label>Image Filename</label>
+                <input type="text" name="image" placeholder="Example: bmw.jpg" required>
+            </div>
+
+            <button type="submit" class="btn">
+                ➕ Add Car
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- DISPLAY CARS -->
+
+    <div class="cars-box">
+
+        <h2>🚘 Added Cars</h2>
+
+        {% if cars %}
+
+        <div class="cars-grid">
+
+            {% for car in cars %}
+
+            <div class="car-card">
+
+                <img src="{{ url_for('static', filename='images/' + car['image']) }}"
+                     alt="{{ car['brand'] }} {{ car['model'] }}">
+
+                <div class="car-info">
+
+                    <h3>{{ car['brand'] }} {{ car['model'] }}</h3>
+
+                    <p><strong>Fuel:</strong> {{ car['fuel'] }}</p>
+
+                    <p><strong>Transmission:</strong> {{ car['transmission'] }}</p>
+
+                    <p><strong>Year:</strong> {{ car['year'] }}</p>
+
+                    <p class="price">₹ {{ car['price'] }}</p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="no-cars">
+            <p>No cars added yet.</p>
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

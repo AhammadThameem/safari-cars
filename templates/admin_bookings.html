@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Bookings</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .booking-container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        .booking-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .booking-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+        }
+
+        .booking-table th,
+        .booking-table td {
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .booking-table th {
+            background: #111;
+            color: white;
+        }
+
+        .booking-table tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+
+        .no-bookings {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">CAR SHOWROOM</div>
+
+    <nav>
+        <a href="/admin">Dashboard</a>
+        <a href="/manage-cars">Manage Cars</a>
+        <a href="/admin-bookings">Bookings</a>
+        <a href="/logout">Logout</a>
+    </nav>
+
+</header>
+
+
+<div class="booking-container">
+
+    <h2>📋 Customer Bookings</h2>
+
+    {% if bookings %}
+
+    <table class="booking-table">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Car</th>
+                <th>Booking Type</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for booking in bookings %}
+
+            <tr>
+                <td>{{ booking['id'] }}</td>
+                <td>{{ booking['name'] }}</td>
+                <td>{{ booking['phone'] }}</td>
+                <td>{{ booking['email'] }}</td>
+                <td>{{ booking['car'] }}</td>
+                <td>{{ booking['booking_type'] }}</td>
+                <td>
+    <form action="/delete-booking/{{ booking['id'] }}"
+          method="POST"
+          onsubmit="return confirm('Delete this booking?');">
+
+        <button type="submit">🗑️ Delete</button>
+
+    </form>
+</td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+    <div class="no-bookings">
+        <h3>No bookings yet.</h3>
+        <p>Customer bookings will appear here.</p>
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

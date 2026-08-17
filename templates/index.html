@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Showroom</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .cars-section {
+            padding: 50px;
+            text-align: center;
+        }
+
+        .cars-section h2 {
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .car-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+            text-align: left;
+        }
+
+        .car-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .car-info {
+            padding: 20px;
+        }
+
+        .car-info h3 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .car-info p {
+            margin: 7px 0;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
+        .no-cars {
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">CAR SHOWROOM</div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/cars">Cars</a>
+    </nav>
+</header>
+
+
+<section class="hero">
+
+    <h1>Find Your Dream Car 🚗</h1>
+
+    <p>Explore our latest collection of cars.</p>
+
+    <a href="/cars" class="btn">View Cars</a>
+
+</section>
+
+
+<!-- ADDED CARS -->
+
+<section class="cars-section">
+
+    <h2>🚘 Our Cars</h2>
+
+    {% if cars %}
+
+    <div class="cars-grid">
+
+        {% for car in cars %}
+
+        <div class="car-card">
+
+            <img src="{{ url_for('static', filename='images/' + car['image']) }}"
+                 alt="{{ car['brand'] }} {{ car['model'] }}">
+
+            <div class="car-info">
+
+                <h3>{{ car['brand'] }} {{ car['model'] }}</h3>
+
+                <p><strong>Fuel:</strong> {{ car['fuel'] }}</p>
+
+                <p><strong>Transmission:</strong> {{ car['transmission'] }}</p>
+
+                <p><strong>Year:</strong> {{ car['year'] }}</p>
+
+                <p class="price">₹ {{ car['price'] }}</p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <p class="no-cars">No cars available yet.</p>
+
+    {% endif %}
+
+</section>
+
+
+</body>
+</html>
