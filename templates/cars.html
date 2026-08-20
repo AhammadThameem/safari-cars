@@ -1,120 +1,748 @@
+```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Our Cars</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Safari Cars - Our Cars</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
 
     <style>
-        .cars {
-            width: 90%;
-            max-width: 1100px;
-            margin: 40px auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+
+        /* ================= HEADER ================= */
+
+        header {
+            height: 75px;
+
+            background: #111;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 24px;
+
+            font-weight: bold;
+
+            letter-spacing: 2px;
+        }
+
+        .logo img {
+            width: 45px;
+
+            height: 45px;
+
+            object-fit: contain;
+
+            border-radius: 50%;
+        }
+
+        nav {
+            display: flex;
+
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 16px;
+
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #e63946;
+        }
+
+
+        /* ================= HERO ================= */
+
+        .cars-hero {
+
+            min-height: 330px;
+
+            background:
+
+                linear-gradient(
+                    rgba(0,0,0,0.72),
+                    rgba(0,0,0,0.72)
+                ),
+
+                url("{{ url_for('static', filename='images/hero-car.jpg') }}")
+                center/cover no-repeat;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            text-align: center;
+
+            color: white;
+
+            padding: 40px 20px;
+        }
+
+        .cars-hero-small {
+
+            color: #e63946;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            letter-spacing: 4px;
+
+            margin-bottom: 15px;
+        }
+
+        .cars-hero h1 {
+
+            font-size: 50px;
+
+            margin-bottom: 15px;
+        }
+
+        .cars-hero p {
+
+            color: #ddd;
+
+            font-size: 18px;
+        }
+
+
+        /* ================= INTRO ================= */
+
+        .cars-intro {
+
+            text-align: center;
+
+            padding: 60px 20px 20px;
+        }
+
+        .cars-intro h2 {
+
+            font-size: 36px;
+
+            margin-bottom: 15px;
+        }
+
+        .cars-intro h2 span {
+
+            color: #e63946;
+        }
+
+        .cars-intro p {
+
+            max-width: 750px;
+
+            margin: auto;
+
+            color: #666;
+
+            line-height: 1.7;
+
+            font-size: 17px;
+        }
+
+
+        /* ================= CARS GRID ================= */
+
+        .cars {
+
+            width: 90%;
+
+            max-width: 1200px;
+
+            margin: 45px auto 80px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(290px, 1fr));
+
+            gap: 30px;
+        }
+
+
+        /* ================= CAR CARD ================= */
+
         .car-card {
+
             background: white;
-            border-radius: 10px;
+
+            border-radius: 14px;
+
             overflow: hidden;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-            padding-bottom: 20px;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.10);
+
+            transition: 0.3s;
+
+            padding-bottom: 25px;
+        }
+
+        .car-card:hover {
+
+            transform: translateY(-8px);
+
+            box-shadow:
+                0 12px 30px rgba(0,0,0,0.18);
+        }
+
+
+        /* ================= IMAGE ================= */
+
+        .car-image {
+
+            width: 100%;
+
+            height: 240px;
+
+            overflow: hidden;
+
+            background: #eee;
         }
 
         .car-image img {
+
             width: 100%;
-            height: 220px;
+
+            height: 100%;
+
             object-fit: cover;
+
+            transition: 0.4s;
         }
 
-        .car-card h2,
-        .car-card p,
-        .car-card .btn {
-            margin-left: 20px;
-            margin-right: 20px;
+        .car-card:hover .car-image img {
+
+            transform: scale(1.06);
         }
 
-        .car-card h2 {
-            margin-top: 15px;
+
+        /* ================= CAR INFO ================= */
+
+        .car-info {
+
+            padding: 22px;
         }
 
-        .car-card p {
-            margin-top: 8px;
+        .car-info h2 {
+
+            font-size: 23px;
+
+            margin-bottom: 12px;
         }
 
-        .car-card .btn {
+        .price {
+
+            color: #e63946;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            margin-bottom: 18px;
+        }
+
+
+        /* ================= SPECIFICATIONS ================= */
+
+        .specs {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 10px;
+
+            margin-bottom: 20px;
+        }
+
+        .spec {
+
+            background: #f7f7f7;
+
+            padding: 10px;
+
+            border-radius: 6px;
+
+            font-size: 14px;
+        }
+
+        .spec strong {
+
+            display: block;
+
+            color: #222;
+
+            margin-bottom: 4px;
+        }
+
+        .spec span {
+
+            color: #666;
+        }
+
+
+        /* ================= BUTTONS ================= */
+
+        .card-buttons {
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+        .btn {
+
             display: inline-block;
-            margin-top: 15px;
+
+            background: #e63946;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 12px 18px;
+
+            border-radius: 5px;
+
+            font-weight: bold;
+
+            text-align: center;
+
+            transition: 0.3s;
         }
+
+        .btn:hover {
+
+            background: #c1121f;
+
+            transform: translateY(-2px);
+        }
+
+        .btn-details {
+
+            flex: 1;
+        }
+
+        .btn-book {
+
+            flex: 1;
+
+            background: #111;
+        }
+
+        .btn-book:hover {
+
+            background: #333;
+        }
+
+
+        /* ================= NO CARS ================= */
 
         .no-cars {
+
+            grid-column: 1 / -1;
+
             text-align: center;
-            margin: 50px;
+
+            padding: 80px 20px;
         }
+
+        .no-cars h2 {
+
+            margin-bottom: 10px;
+        }
+
+        .no-cars p {
+
+            color: #777;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        footer {
+
+            background: #000;
+
+            color: #aaa;
+
+            text-align: center;
+
+            padding: 25px;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 768px) {
+
+            header {
+
+                padding: 0 20px;
+            }
+
+            .logo {
+
+                font-size: 19px;
+            }
+
+            .logo img {
+
+                width: 38px;
+
+                height: 38px;
+            }
+
+            nav {
+
+                gap: 15px;
+            }
+
+            nav a {
+
+                font-size: 14px;
+            }
+
+            .cars-hero {
+
+                min-height: 280px;
+            }
+
+            .cars-hero h1 {
+
+                font-size: 38px;
+            }
+
+            .cars-hero p {
+
+                font-size: 16px;
+            }
+
+            .cars-intro h2 {
+
+                font-size: 30px;
+            }
+
+            .cars {
+
+                width: 92%;
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
+<!-- ================= HEADER ================= -->
+
 <header>
-    <div class="logo">CAR SHOWROOM</div>
+
+    <div class="logo">
+
+        <img
+            src="{{ url_for('static', filename='images/logo.png') }}"
+            alt="Safari Cars Logo"
+        >
+
+        <span>
+            SAFARI CARS
+        </span>
+
+    </div>
+
 
     <nav>
-        <a href="/">Home</a>
-        <a href="/cars">Cars</a>
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/cars">
+            Cars
+        </a>
+
     </nav>
+
 </header>
 
-<section class="hero">
-    <h1>Our Cars 🚗</h1>
-    <p>Choose your dream car</p>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="cars-hero">
+
+    <p class="cars-hero-small">
+        SAFARI CARS
+    </p>
+
+    <h1>
+        Our Cars 🚗
+    </h1>
+
+    <p>
+        Luxury used cars for your next journey.
+    </p>
+
 </section>
 
+
+
+<!-- ================= INTRO ================= -->
+
+<section class="cars-intro">
+
+    <h2>
+        Explore Our <span>Collection</span>
+    </h2>
+
+    <p>
+        Discover our carefully selected collection of quality
+        pre-owned cars in Kasaragod, Kerala. Find the perfect
+        combination of luxury, comfort, performance and value.
+    </p>
+
+</section>
+
+
+
+<!-- ================= CARS ================= -->
 
 <section class="cars">
 
     {% if cars %}
 
+
         {% for car in cars %}
+
 
         <div class="car-card">
 
+
+            <!-- IMAGE -->
+
             <div class="car-image">
-                <img src="{{ url_for('static', filename='images/' + car['image']) }}"
-                     alt="{{ car['brand'] }} {{ car['model'] }}">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/' + car['image']
+                    ) }}"
+
+                    alt="{{ car['brand'] }} {{ car['model'] }}"
+                >
+
             </div>
 
-            <h2>{{ car['brand'] }} {{ car['model'] }}</h2>
 
-            <p><strong>Price:</strong> ₹{{ car['price'] }}</p>
 
-            <p><strong>Fuel:</strong> {{ car['fuel'] }}</p>
+            <!-- INFO -->
 
-            <p><strong>Transmission:</strong> {{ car['transmission'] }}</p>
+            <div class="car-info">
 
-            <p><strong>Year:</strong> {{ car['year'] }}</p>
 
-            <a href="/car-details/{{ car['id'] }}" class="btn">
-                View Details
-            </a>
+                <h2>
+                    {{ car['brand'] }} {{ car['model'] }}
+                </h2>
+
+
+                <p class="price">
+                    ₹ {{ car['price'] }}
+                </p>
+
+
+
+                <!-- SPECIFICATIONS -->
+
+                <div class="specs">
+
+
+                    <div class="spec">
+
+                        <strong>
+                            Fuel
+                        </strong>
+
+                        <span>
+                            {{ car['fuel'] }}
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="spec">
+
+                        <strong>
+                            Transmission
+                        </strong>
+
+                        <span>
+                            {{ car['transmission'] }}
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="spec">
+
+                        <strong>
+                            Year
+                        </strong>
+
+                        <span>
+                            {{ car['year'] }}
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="spec">
+
+                        <strong>
+                            Brand
+                        </strong>
+
+                        <span>
+                            {{ car['brand'] }}
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- BUTTONS -->
+
+                <div class="card-buttons">
+
+
+                    <a
+                        href="/car-details/{{ car['id'] }}"
+                        class="btn btn-details"
+                    >
+                        View Details
+                    </a>
+
+
+                    <a
+                        href="/booking?car_id={{ car['id'] }}"
+                        class="btn btn-book"
+                    >
+                        Book Now
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
 
         </div>
+
 
         {% endfor %}
 
+
     {% else %}
 
+
         <div class="no-cars">
-            <h2>No cars available</h2>
-            <p>Please check back later.</p>
+
+            <h2>
+                No Cars Available
+            </h2>
+
+            <p>
+                Please check back later for our latest vehicles.
+            </p>
+
         </div>
+
 
     {% endif %}
 
 </section>
 
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        © 2026 Safari Cars. All Rights Reserved.
+    </p>
+
+</footer>
+
+
 </body>
+
 </html>
+```

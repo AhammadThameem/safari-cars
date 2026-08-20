@@ -1,137 +1,852 @@
+```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Car Showroom</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Safari Cars</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
 
     <style>
-        .cars-section {
-            padding: 50px;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+
+        /* HEADER */
+
+        header {
+            height: 75px;
+            background: #111;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.logo img {
+    width: 45px;
+    height: 45px;
+
+    object-fit: contain;
+
+    border-radius: 50%;
+}
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+nav a.active {
+    color: #e63946;
+}
+
+nav a {
+    position: relative;
+}
+
+nav a::after {
+    content: "";
+
+    position: absolute;
+
+    width: 0;
+    height: 2px;
+
+    background: #e63946;
+
+    left: 0;
+    bottom: -6px;
+
+    transition: 0.3s;
+}
+
+nav a:hover::after,
+nav a.active::after {
+    width: 100%;
+}
+
+
+        /* HERO */
+
+        .hero {
+            min-height: 620px;
+
+            background:
+                linear-gradient(
+                    rgba(0,0,0,0.72),
+                    rgba(0,0,0,0.72)
+                ),
+                url("{{ url_for('static', filename='images/hero-car.jpg') }}")
+                center/cover no-repeat;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            color: white;
+
+            padding: 40px 20px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero-small {
+            color: #e63946;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            letter-spacing: 4px;
+
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: 62px;
+
+            line-height: 1.15;
+
+            margin-bottom: 25px;
+        }
+
+        .hero-text {
+            font-size: 19px;
+
+            color: #ddd;
+
+            line-height: 1.7;
+
+            max-width: 700px;
+
+            margin: 0 auto 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+
+            background: #e63946;
+
+            color: white;
+
+            padding: 15px 35px;
+
+            border-radius: 5px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #c1121f;
+
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background: transparent;
+
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+
+            color: #111;
+        }
+
+
+        /* ABOUT */
+
+        .about {
+            background: white;
+
+            padding: 80px 8%;
+
             text-align: center;
         }
 
-        .cars-section h2 {
-            margin-bottom: 30px;
-            font-size: 32px;
+        .about h2 {
+            font-size: 38px;
+
+            margin-bottom: 25px;
         }
 
-        .cars-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            max-width: 1100px;
+        .about h2 span {
+            color: #e63946;
+        }
+
+        .about p {
+            max-width: 950px;
+
             margin: auto;
+
+            font-size: 17px;
+
+            line-height: 1.9;
+
+            color: #555;
         }
 
-        .car-card {
+
+        /* WHY CHOOSE US */
+
+        .why {
+            padding: 80px 7%;
+
+            text-align: center;
+        }
+
+        .why h2 {
+            font-size: 38px;
+
+            margin-bottom: 45px;
+        }
+
+        .why-grid {
+            max-width: 1100px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 25px;
+        }
+
+        .why-card {
             background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-            text-align: left;
+
+            padding: 35px 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.08);
+
+            transition: 0.3s;
         }
 
-        .car-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
+        .why-card:hover {
+            transform: translateY(-8px);
         }
 
-        .car-info {
-            padding: 20px;
+        .why-icon {
+            font-size: 42px;
+
+            margin-bottom: 18px;
         }
 
-        .car-info h3 {
+        .why-card h3 {
+            font-size: 21px;
+
+            margin-bottom: 12px;
+        }
+
+        .why-card p {
+            color: #666;
+
+            line-height: 1.6;
+        }
+
+
+        /* EXPLORE */
+
+        .explore {
+            background: #111;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 90px 20px;
+        }
+
+        .explore h2 {
+            font-size: 40px;
+
+            margin-bottom: 18px;
+        }
+
+        .explore p {
+            color: #ccc;
+
+            font-size: 17px;
+
+            margin-bottom: 30px;
+        }
+
+
+        /* CONTACT */
+
+        .contact {
+            background: white;
+
+            text-align: center;
+
+            padding: 70px 20px;
+        }
+
+        .contact h2 {
+            font-size: 36px;
+
+            margin-bottom: 15px;
+        }
+
+        .contact p {
+            color: #666;
+
             margin-bottom: 10px;
-            font-size: 22px;
         }
 
-        .car-info p {
-            margin: 7px 0;
+/* CONTACT */
+
+.contact {
+    background: white;
+    text-align: center;
+    padding: 90px 7%;
+}
+
+.contact-content {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.contact-small {
+    color: #e63946;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.contact h2 {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.contact h2 span {
+    color: #e63946;
+}
+
+.contact-description {
+    max-width: 750px;
+    margin: auto;
+    color: #666;
+    line-height: 1.7;
+    font-size: 17px;
+}
+
+.contact-info {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 25px;
+
+    margin-top: 45px;
+}
+
+.contact-card {
+    background: #f7f7f7;
+    padding: 30px 20px;
+    border-radius: 12px;
+
+    transition: 0.3s;
+}
+
+.contact-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.contact-icon {
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.contact-card h3 {
+    margin-bottom: 10px;
+}
+
+.contact-card p {
+    color: #666;
+}
+
+.contact-buttons {
+    margin-top: 40px;
+
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-email {
+    background: #111;
+}
+
+.btn-email:hover {
+    background: #333;
+}
+        /* FOOTER */
+
+        footer {
+            background: #000;
+
+            color: #aaa;
+
+            text-align: center;
+
+            padding: 25px;
         }
 
-        .price {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 12px;
+
+        /* MOBILE */
+
+        @media (max-width: 768px) {
+
+            header {
+                padding: 0 20px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            nav {
+                gap: 15px;
+            }
+
+            nav a {
+                font-size: 14px;
+            }
+
+            .hero {
+                min-height: 520px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero-text {
+                font-size: 16px;
+            }
+
+            .about h2,
+            .why h2,
+            .explore h2,
+            .contact h2 {
+                font-size: 30px;
+            }
+
         }
 
-        .no-cars {
-            color: #777;
-        }
     </style>
+
 </head>
+
 
 <body>
 
+
+<!-- HEADER -->
+
 <header>
-    <div class="logo">CAR SHOWROOM</div>
+
+    <!-- YOUR LOGO WILL BE ADDED HERE LATER -->
+
+    <div class="logo">
+
+    <img src="{{ url_for('static', filename='images/logo.png') }}"
+         alt="Safari Cars Logo">
+
+    <span>SAFARI CARS</span>
+
+</div>
 
     <nav>
-        <a href="/">Home</a>
-        <a href="/cars">Cars</a>
-    </nav>
+
+    <a href="/" class="active">
+        Home
+    </a>
+
+    <a href="/cars">
+        Cars
+    </a>
+
+    <a href="#about">
+        About
+    </a>
+
+    <a href="#contact">
+        Contact
+    </a>
+
+</nav>
+
 </header>
 
 
+
+<!-- HERO -->
+
 <section class="hero">
 
-    <h1>Find Your Dream Car 🚗</h1>
+    <div class="hero-content">
 
-    <p>Explore our latest collection of cars.</p>
+        <p class="hero-small">
+            WELCOME TO SAFARI CARS
+        </p>
 
-    <a href="/cars" class="btn">View Cars</a>
+        <h1>
+            Your Journey Begins
+            <br>
+            With The Right Car
+        </h1>
+
+        <p class="hero-text">
+            Discover quality cars, exceptional service,
+            and the perfect vehicle for your next journey.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="/cars" class="btn">
+                Explore Our Cars
+            </a>
+
+            <a href="#contact" class="btn btn-outline">
+                Contact Us
+            </a>
+
+        </div>
+
+    </div>
 
 </section>
 
 
-<!-- ADDED CARS -->
 
-<section class="cars-section">
+<!-- ABOUT -->
 
-    <h2>🚘 Our Cars</h2>
+<section class="about" id="about">
+    <h2>
+        About <span>Safari Cars</span>
+    </h2>
 
-    {% if cars %}
+    <p>
 
-    <div class="cars-grid">
+        Safari Cars is your trusted destination for finding the perfect
+        car for every journey. We believe that choosing a car is not just
+        about buying a vehicle, but about choosing comfort, style,
+        performance, safety, and creating memorable experiences on the
+        road. Our showroom offers a carefully selected range of quality
+        cars to suit different needs, lifestyles, and budgets.
 
-        {% for car in cars %}
+        Whether you are looking for a stylish car for everyday travel,
+        a comfortable family vehicle, a powerful SUV for adventures,
+        or a premium car that reflects your personality, Safari Cars is
+        here to help you make the right choice.
 
-        <div class="car-card">
+        We are committed to providing a simple, transparent, and
+        customer-friendly car-buying experience. From exploring
+        different models to understanding features and selecting the
+        right vehicle, our goal is to make every step easy and
+        comfortable for our customers.
 
-            <img src="{{ url_for('static', filename='images/' + car['image']) }}"
-                 alt="{{ car['brand'] }} {{ car['model'] }}">
+        At Safari Cars, we value quality, trust, customer satisfaction,
+        and long-term relationships. We believe every customer deserves
+        a reliable vehicle and a showroom experience they can trust.
 
-            <div class="car-info">
+        <strong>
+            Your journey begins with the right car, and at Safari Cars,
+            we are ready to help you discover it.
+        </strong>
 
-                <h3>{{ car['brand'] }} {{ car['model'] }}</h3>
+    </p>
 
-                <p><strong>Fuel:</strong> {{ car['fuel'] }}</p>
+</section>
 
-                <p><strong>Transmission:</strong> {{ car['transmission'] }}</p>
 
-                <p><strong>Year:</strong> {{ car['year'] }}</p>
 
-                <p class="price">₹ {{ car['price'] }}</p>
+<!-- WHY CHOOSE US -->
+
+<section class="why">
+
+    <h2>
+        Why Choose Safari Cars?
+    </h2>
+
+    <div class="why-grid">
+
+
+        <div class="why-card">
+
+            <div class="why-icon">
+                🚗
+            </div>
+
+            <h3>
+                Quality Cars
+            </h3>
+
+            <p>
+                Carefully selected vehicles with excellent quality,
+                performance and reliability.
+            </p>
+
+        </div>
+
+
+        <div class="why-card">
+
+            <div class="why-icon">
+                💰
+            </div>
+
+            <h3>
+                Best Value
+            </h3>
+
+            <p>
+                Find the right vehicle at a competitive price with
+                excellent value for your money.
+            </p>
+
+        </div>
+
+
+        <div class="why-card">
+
+            <div class="why-icon">
+                🤝
+            </div>
+
+            <h3>
+                Trusted Service
+            </h3>
+
+            <p>
+                Friendly, transparent and reliable service for
+                every customer.
+            </p>
+
+        </div>
+
+
+        <div class="why-card">
+
+            <div class="why-icon">
+                ⭐
+            </div>
+
+            <h3>
+                Customer First
+            </h3>
+
+            <p>
+                Customer satisfaction is our priority from the
+                showroom to the road.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- EXPLORE CARS -->
+
+<section class="explore">
+
+    <h2>
+        Find Your Perfect Car
+    </h2>
+
+    <p>
+        Explore our collection and discover the car that matches
+        your lifestyle and journey.
+    </p>
+
+    <a href="/cars" class="btn">
+        View All Cars
+    </a>
+
+</section>
+
+
+
+<!-- CONTACT -->
+
+<section class="contact" id="contact">
+
+    <div class="contact-content">
+
+        <p class="contact-small">
+            GET IN TOUCH
+        </p>
+
+        <h2>
+            Contact <span>Safari Cars</span>
+        </h2>
+
+        <p class="contact-description">
+            Looking for a luxury used car in Kasaragod, Kerala?
+            Our team is ready to help you find the right car for
+            your needs. Contact Safari Cars today and start your
+            journey with confidence.
+        </p>
+
+
+        <div class="contact-info">
+
+            <div class="contact-card">
+
+                <div class="contact-icon">
+                    📍
+                </div>
+
+                <h3>
+                    Location
+                </h3>
+
+                <p>
+                    Kasaragod, Kerala
+                </p>
+
+            </div>
+
+
+            <div class="contact-card">
+
+                <div class="contact-icon">
+                    📞
+                </div>
+
+                <h3>
+                    Phone
+                </h3>
+
+                <p>
+                    83103952XXX
+                </p>
+
+            </div>
+
+
+            <div class="contact-card">
+
+                <div class="contact-icon">
+                    📧
+                </div>
+
+                <h3>
+                    Email
+                </h3>
+
+                <p>
+                    safaricarsxxxx@gmail.com
+                </p>
 
             </div>
 
         </div>
 
-        {% endfor %}
+
+        <div class="contact-buttons">
+
+            <a href="tel:83103952XXX" class="btn">
+                📞 Call Safari Cars
+            </a>
+
+            <a href="mailto:safaricarsxxxx@gmail.com"
+               class="btn btn-email">
+                ✉️ Email Us
+            </a>
+
+        </div>
 
     </div>
-
-    {% else %}
-
-    <p class="no-cars">No cars available yet.</p>
-
-    {% endif %}
 
 </section>
 
 
+
+<!-- FOOTER -->
+
+<footer>
+
+    <p>
+        © 2026 Safari Cars. All Rights Reserved.
+    </p>
+
+</footer>
+
+
 </body>
+
 </html>
+```

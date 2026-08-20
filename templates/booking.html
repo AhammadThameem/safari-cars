@@ -1,104 +1,471 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Car Booking</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Safari Cars - Booking</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+
+        /* HEADER */
+
+        header {
+            background: #111;
+            color: white;
+
+            padding: 18px 7%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 2px;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: #e63946;
+        }
+
+
+        /* HERO */
+
+        .hero {
+            background:
+                linear-gradient(
+                    rgba(0,0,0,0.7),
+                    rgba(0,0,0,0.7)
+                );
+
+            background-color: #222;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 55px 20px;
+        }
+
+        .hero h2 {
+            font-size: 38px;
+            margin: 0 0 12px;
+        }
+
+        .hero p {
+            color: #ddd;
+            margin: 0;
+        }
+
+
+        /* BOOKING CONTAINER */
+
+        .booking-container {
+
+            max-width: 600px;
+
+            margin: 50px auto;
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 25px rgba(0,0,0,0.1);
+        }
+
+
+        /* SUCCESS MESSAGE */
+
+        .success-message {
+
+            background: #d4edda;
+
+            color: #155724;
+
+            padding: 15px;
+
+            border-radius: 6px;
+
+            margin-bottom: 25px;
+
+            text-align: center;
+        }
+
+
+        /* FORM */
+
+        form {
+            width: 100%;
+        }
+
+        label {
+
+            display: block;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+
+            margin-top: 20px;
+        }
+
+        label:first-child {
+            margin-top: 0;
+        }
+
+
+        input,
+        select {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+            background: white;
+
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+
+            border-color: #e63946;
+
+            box-shadow:
+                0 0 0 2px rgba(230,57,70,0.1);
+        }
+
+
+        /* DROPDOWN */
+
+        select {
+
+            cursor: pointer;
+
+            appearance: auto;
+        }
+
+
+        /* BUTTON */
+
+        button {
+
+            width: 100%;
+
+            margin-top: 30px;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background: #e63946;
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        button:hover {
+
+            background: #c1121f;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            header {
+
+                padding: 15px 20px;
+
+            }
+
+            header h1 {
+
+                font-size: 19px;
+
+            }
+
+            nav {
+
+                gap: 12px;
+
+            }
+
+            nav a {
+
+                font-size: 14px;
+
+            }
+
+            .hero h2 {
+
+                font-size: 30px;
+
+            }
+
+            .booking-container {
+
+                margin: 30px 15px;
+
+                padding: 25px 20px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
+
+<!-- HEADER -->
+
 <header>
-    <h1>CAR SHOWROOM</h1>
+
+    <h1>
+        SAFARI CARS
+    </h1>
 
     <nav>
-        <a href="/">Home</a>
-        <a href="/cars">Cars</a>
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/cars">
+            Cars
+        </a>
+
     </nav>
+
 </header>
 
 
+
+<!-- HERO -->
+
 <section class="hero">
-    <h2>Book Your Car 🚗</h2>
-    <p>Schedule a test drive or make an enquiry.</p>
+
+    <h2>
+        Book Your Car 🚗
+    </h2>
+
+    <p>
+        Schedule a test drive or make an enquiry.
+    </p>
+
 </section>
 
 
+
+<!-- BOOKING FORM -->
+
 <div class="booking-container">
 
+
     {% if message %}
+
         <div class="success-message">
             {{ message }}
         </div>
+
     {% endif %}
+
 
 
     <form action="/booking" method="POST">
 
-        <label>Customer Name</label>
-        <input type="text"
-               name="name"
-               placeholder="Enter your name"
-               required>
+
+        <!-- CUSTOMER NAME -->
+
+        <label for="name">
+            Customer Name
+        </label>
+
+        <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter your name"
+            required
+        >
 
 
-        <label>Phone Number</label>
-        <input type="text"
-               name="phone"
-               placeholder="Enter your phone number"
-               required>
+
+        <!-- PHONE -->
+
+        <label for="phone">
+            Phone Number
+        </label>
+
+        <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="Enter your phone number"
+            required
+        >
 
 
-        <label>Email</label>
-        <input type="email"
-               name="email"
-               placeholder="Enter your email"
-               required>
-<select name="car" required>
 
-    <option value="">-- Select Car --</option>
+        <!-- EMAIL -->
 
-    {% for car in cars %}
+        <label for="email">
+            Email
+        </label>
 
-        <option value="{{ car['brand'] }} {{ car['model'] }}"
-            {% if selected_car and selected_car|int == car['id'] %}
-                selected
-            {% endif %}>
-            {{ car['brand'] }} {{ car['model'] }}
-        </option>
+        <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+        >
 
-    {% endfor %}
 
-</select>
 
-        <label>Booking Type</label>
+        <!-- CAR -->
 
-        <select name="booking_type" required>
+        <label for="car">
+            Select Car
+        </label>
 
-            <option value="">-- Select Booking Type --</option>
+        <select
+            name="car"
+            id="car"
+            required
+        >
+
+            <option value="" disabled selected>
+                -- Select a Car --
+            </option>
+
+
+            {% for car in cars %}
+
+                <option
+                    value="{{ car['brand'] }} {{ car['model'] }}"
+
+                    {% if selected_car and selected_car|int == car['id'] %}
+                        selected
+                    {% endif %}
+                >
+
+                    {{ car['brand'] }} {{ car['model'] }}
+
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+
+
+        <!-- BOOKING TYPE -->
+
+        <label for="booking_type">
+            Booking Type
+        </label>
+
+        <select
+            name="booking_type"
+            id="booking_type"
+            required
+        >
+
+            <option value="" disabled selected>
+                -- Select Booking Type --
+            </option>
 
             <option value="Test Drive">
-                Test Drive
+                🚗 Test Drive
             </option>
 
             <option value="Car Enquiry">
-                Car Enquiry
+                💬 Car Enquiry
+            </option>
+
+            <option value="Purchase">
+                🏷️ Purchase
+            </option>
+
+            <option value="Finance">
+                💰 Finance
             </option>
 
         </select>
 
 
+
+        <!-- SUBMIT -->
+
         <button type="submit">
             Submit Booking 🚗
         </button>
+
 
     </form>
 
 </div>
 
+
 </body>
+
 </html>
+```
